@@ -39,13 +39,15 @@ mongoose.connect("mongodb://localhost/mongoBuzzfeedScraper", {
  // GET route for scraping
 
  app.get("/scrape", function(req, res){
-     axios.get("https://www.buzzfeed.com/news?utm_term=.kwBVgwMLD1#.jcrPQb658Y").then(function(response){
+     axios.get("https://www.buzzfeed.com/news").then(function(response){
         var $ = cheerio.load(response.data);
 
-        $(".xs-px05 h2").each(function(i, element){
+        $(".xs-px05").each(function(i, element){
             var result = {};
-            result.title = $(this).text();
-            console.log(result.title);
+            result.title = $(this).find("h2").text();
+            // console.log(result.title);
+            result.link = "https://www.buzzfeed.com" + $(this).find("a").attr("href");
+            console.log(result.link);
 
             db.Article
             .create(result)
