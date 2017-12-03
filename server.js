@@ -32,8 +32,49 @@ mongoose.connect("mongodb://localhost/mongoBuzzfeedScraper", {
     useMongoClient: true
 });
 
+/***************
+     Routes
+ ***************/
 
+ // GET route for scraping
 
+ app.get("/scrape", function(req, res){
+     axios.get("https://www.buzzfeed.com/news?utm_term=.kwBVgwMLD1#.jcrPQb658Y").then(function(response){
+        var $ = cheerio.load(response.data);
+
+        $(".xs-px05 h2").each(function(i, element){
+            var result = {};
+            result.title = $(this).text();
+            console.log(result.title);
+
+            db.Article
+            .create(result)
+            .then(function(dbArticle) {
+              // If we were able to successfully scrape and save an Article, send a message to the client
+              res.send("Scrape Complete");
+            })
+            .catch(function(err) {
+              // If an error occurred, send it to the client
+              res.json(err);
+            });
+        });
+     }); // axios.get
+ }); // app.get
+
+ // Route for getting all Articles from the db
+app.get("/articles", function(req, res) {
+    // Grab every document in the Articles collection
+    db.Article
+    .find({})
+    .then(function(dbArticle) {
+      // If we were able to successfully find Articles, send them back to the client
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+  });
 
 
 
