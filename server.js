@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended:false }));
 app.use(express.static("public"));
 
 // set mongoose to use ES6 Promis library and Connect to mongo DB
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://heroku_chk885ch:uq9pd7oc2iu70kdls0tk5a2vjb@ds127936.mlab.com:27936/heroku_chk885ch";
 
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI, {
