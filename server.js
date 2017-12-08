@@ -12,7 +12,7 @@ var cheerio = require("cheerio");
 // require all models
 var db = require("./models");
 
-// var PORT = 3000;
+var PORT = 3000;
 
 // Initialize Express
 var app = express();
@@ -30,7 +30,7 @@ app.use(express.static("public"));
 
 
 mongoose.Promise = Promise;
-mongoose.connect("mongodb://heroku_chk885ch:uq9pd7oc2iu70kdls0tk5a2vjb@ds127936.mlab.com:27936/heroku_chk885ch", {
+mongoose.connect("mongodb://localhost/mongoBuzzfeedScraper", {
     useMongoClient: true
 });
 
